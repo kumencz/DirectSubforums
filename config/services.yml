@@ -1,0 +1,14 @@
+imports:
+    - { resource: parameters.yml }
+
+services:
+    kumen.DirectSubforums.service:
+        class: kumen\DirectSubforums\service
+        arguments:
+            - '@user'
+            - '%kumen.DirectSubforums.tables.demo_table%'
+
+    kumen.DirectSubforums.listener:
+        class: kumen\DirectSubforums\event\main_listener
+        tags:
+            - { name: event.listener }
