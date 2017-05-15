@@ -37,14 +37,16 @@ class main_listener implements EventSubscriberInterface
 	{
 		$row = $event['row'];
 		$parent_id = $event['parent_id'];
-		$forum_rows = $event['forum_rows'];
 		$subforums = $event['subforums'];
 		if($row['forum_type'] != FORUM_CAT && $parent_id != $row['parent_id'])
 		{
-			unset($forum_rows[$parent_id][$row['forum_id']]);
 			unset($subforums[$parent_id][$row['forum_id']]);
 		}
-		$event['forum_rows'] = $forum_rows;
+
+		if (isset($subforums[$parent_id][$row['parent_id']]) && !$row['display_on_index'])
+		{
+			unset($subforums[$parent_id][$row['parent_id']]['children']);
+		}
 		$event['subforums'] = $subforums;
 	}
 }
